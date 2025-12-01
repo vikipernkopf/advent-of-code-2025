@@ -395,6 +395,4 @@ repo
 # Android studio 3.1+ serialized cache file
 
 # Copilot
-**/copilot.data.migration.agent.xml
-**/copilot.data.migration.ask.xml
-**/copilot.data.migration.edit.xml
+**/copilot.data.migration*.xml
