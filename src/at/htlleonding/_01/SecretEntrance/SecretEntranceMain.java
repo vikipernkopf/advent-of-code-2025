@@ -16,8 +16,6 @@ public class SecretEntranceMain extends MainBaseClass {
 
     @Override
     public void runPartOne(Path path) {
-        SecretEntranceMain app = new SecretEntranceMain();
-
         List<ValuePair> values;
 
         try {
