@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 public class LobbyUtils {
     public static int[][] parseInput(Path path) throws IOException {
@@ -47,6 +48,45 @@ public class LobbyUtils {
         }
 
         return totalSum;
+    }
+
+    public static long calculateMaxVoltageFor12(int[][] values) {
+        long sum = 0;
+
+        for (int[] array : values) {
+            sum += findMaxSum(array);
+        }
+
+        return sum;
+    }
+
+    private static long findMaxSum(int[] array) {
+        Stack<Integer> result = new Stack<>();
+
+        for (int i = 0; i < array.length; i++) {
+            int current = array[i];
+            int remainingPossibleDigits = array.length - i;
+
+            while (!result.isEmpty() && current > result.peek() && remainingPossibleDigits >= 12 - result.size() + 1) {
+                result.pop();
+            }
+
+            if (result.size() < 12) {
+                result.push(current);
+            }
+        }
+
+        return sumWeightedDigits(result);
+    }
+
+    private static long sumWeightedDigits(Stack<Integer> stack) {
+        long sum = 0;
+
+        for (Integer digit : stack) {
+            sum = sum * 10 + digit;
+        }
+
+        return sum;
     }
 
     private static int getMaxIndex(int[] array) {

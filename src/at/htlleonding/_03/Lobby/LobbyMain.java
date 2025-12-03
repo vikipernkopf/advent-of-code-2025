@@ -26,4 +26,19 @@ public class LobbyMain extends MainBaseClass {
 
         System.out.println(sum);
     }
+
+    @Override
+    public void runPartTwo(Path path) {
+        int[][] values;
+
+        try {
+            values = LobbyUtils.parseInput(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        long sum = LobbyUtils.calculateMaxVoltageFor12(values);
+
+        System.out.println(sum);
+    }
 }
