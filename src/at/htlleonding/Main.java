@@ -7,14 +7,14 @@ import at.htlleonding._03.Lobby.LobbyMain;
 import java.util.List;
 
 public class Main {
-    private final static List<MainBaseClass> classes = List.of(
+    private final static List<MainBaseClass<?>> classes = List.of(
         new SecretEntranceMain(),
         new GiftShopMain(),
         new LobbyMain()
     );
 
-    public static void main(String[] args) {
-        for (MainBaseClass cls : classes) {
+    static void main() {
+        for (MainBaseClass<?> cls : classes) {
             System.out.println("Running day: " + cls.day);
             System.out.println("Test:");
             cls.runTest();

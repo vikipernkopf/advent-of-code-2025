@@ -1,13 +1,16 @@
 package at.htlleonding._01.SecretEntrance;
 
+import at.htlleonding.IUtils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SecretEntranceUtils {
-    public static List<ValuePair> parseInput(Path path) throws IOException {
+public class SecretEntranceUtils implements IUtils<List<ValuePair>> {
+    @Override
+    public List<ValuePair> parseInput(Path path) throws IOException {
         List<String> lines = Files.readAllLines(path);
         List<ValuePair> values = new ArrayList<>();
 
@@ -21,8 +24,9 @@ public abstract class SecretEntranceUtils {
         return values;
     }
 
-    public static int calculatePointingZero(int start, List<ValuePair> values) {
-        int current = start;
+    @Override
+    public long calculatePartOne(List<ValuePair> values) {
+        int current = 50;
         int count = 0;
 
         for (ValuePair value : values) {
@@ -40,8 +44,9 @@ public abstract class SecretEntranceUtils {
         return count;
     }
 
-    public static int calculateAnyZeros(int start, List<ValuePair> values) {
-        int current = start;
+    @Override
+    public long calculatePartTwo(List<ValuePair> values) {
+        int current = 50;
         int count = 0;
 
         for (ValuePair value : values) {

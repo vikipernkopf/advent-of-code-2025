@@ -1,5 +1,7 @@
 package at.htlleonding._03.Lobby;
 
+import at.htlleonding.IUtils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,8 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
-public class LobbyUtils {
-    public static int[][] parseInput(Path path) throws IOException {
+public class LobbyUtils implements IUtils<int[][]> {
+    @Override
+    public int[][] parseInput(Path path) throws IOException {
         List<String> lines = Files.readAllLines(path);
 
         int[][] values = new int[lines.size()][];
@@ -24,7 +27,8 @@ public class LobbyUtils {
         return values;
     }
 
-    public static int calculateMaxVoltage(int[][] values) {
+    @Override
+    public long calculatePartOne(int[][] values) {
         int totalSum = 0;
 
         for (int[] array : values) {
@@ -50,7 +54,8 @@ public class LobbyUtils {
         return totalSum;
     }
 
-    public static long calculateMaxVoltageFor12(int[][] values) {
+    @Override
+    public long calculatePartTwo(int[][] values) {
         long sum = 0;
 
         for (int[] array : values) {

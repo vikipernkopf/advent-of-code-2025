@@ -1,9 +1,11 @@
 package at.htlleonding;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
-public abstract class MainBaseClass {
+public abstract class MainBaseClass<T> {
     public final int day;
+    public final IUtils<T> utils;
 
     protected MainBaseClass() {
         Package pkg = this.getClass().getPackage();
@@ -16,23 +18,29 @@ public abstract class MainBaseClass {
         } else {
             this.day = -1;
         }
-    }
 
-    protected int getDay() {
-        return day;
+        this.utils = getUtils();
     }
 
     public void run(Path path) {
-        runPartOne(path);
-        runPartTwo(path);
+        T values;
+
+        try {
+            values = utils.parseInput(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        runPartOne(values);
+        runPartTwo(values);
     }
 
-    public void runPartOne(Path path) {
-
+    public void runPartOne(T values) {
+        System.out.println(utils.calculatePartOne(values));
     }
 
-    public void runPartTwo(Path path) {
-
+    public void runPartTwo(T values) {
+        System.out.println(utils.calculatePartTwo(values));
     }
 
     public void runTest() {
@@ -42,6 +50,8 @@ public abstract class MainBaseClass {
     public void runInput() {
         run(Path.of("data/" + String.format("%02d", day) + "/input.in"));
     }
+
+    protected IUtils<T> getUtils() {
+        return null;
+    }
 }
-
-

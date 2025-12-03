@@ -1,13 +1,16 @@
 package at.htlleonding._02.GiftShop;
 
+import at.htlleonding.IUtils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GiftShopUtils {
-    public static List<LongPair> parseInput(Path path) throws IOException {
+public class GiftShopUtils implements IUtils<List<LongPair>> {
+    @Override
+    public List<LongPair> parseInput(Path path) throws IOException {
         String text = Files.readString(path);
 
         String[] lines = text.split(",");
@@ -21,7 +24,8 @@ public class GiftShopUtils {
         return values;
     }
 
-    public static long addAllInvalidIds(List<LongPair> values) {
+    @Override
+    public long calculatePartOne(List<LongPair> values) {
         long sum = 0;
 
         for (LongPair pair : values) {
@@ -39,7 +43,8 @@ public class GiftShopUtils {
         return sum;
     }
 
-    public static long addAllInvalidIds2(List<LongPair> values) {
+    @Override
+    public long calculatePartTwo(List<LongPair> values) {
         long sum = 0;
 
         for (LongPair pair : values) {
@@ -48,7 +53,8 @@ public class GiftShopUtils {
                 boolean idInvalid = false;
 
                 for (int digitsPerPart = 1; digitsPerPart < digits & !idInvalid; digitsPerPart++) {
-                    if (digits % digitsPerPart == 0) {
+                    if (digits % digitsPerPart == 0) //noinspection CommentedOutCode
+                    {
                         /*int partsNum = digits / digitsPerPart;
                         long product = (long) Math.pow(10, (double) getDigits(i) / partsNum);
                         long[] parts = new long[partsNum];
