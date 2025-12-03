@@ -396,3 +396,6 @@ repo
 
 # Copilot
 **/copilot.data.migration*.xml
+
+# Input files
+data/
