@@ -15,10 +15,10 @@ public class Main {
 
     static void main() {
         for (MainBaseClass<?> cls : classes) {
-            System.out.println("Running day: " + cls.day);
-            System.out.println("Test:");
+            System.out.println("Day: " + cls.day);
+            System.out.println("\nTest:");
             cls.runTest();
-            System.out.println("Input:");
+            System.out.println("\nInput:");
             cls.runInput();
             System.out.println();
         }

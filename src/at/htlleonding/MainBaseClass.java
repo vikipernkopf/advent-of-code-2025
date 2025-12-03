@@ -36,11 +36,11 @@ public abstract class MainBaseClass<T> {
     }
 
     public void runPartOne(T values) {
-        System.out.println(utils.calculatePartOne(values));
+        System.out.printf("Part 1: %s\n", utils.calculatePartOne(values));
     }
 
     public void runPartTwo(T values) {
-        System.out.println(utils.calculatePartTwo(values));
+        System.out.printf("Part 2: %s\n", utils.calculatePartTwo(values));
     }
 
     public void runTest() {
