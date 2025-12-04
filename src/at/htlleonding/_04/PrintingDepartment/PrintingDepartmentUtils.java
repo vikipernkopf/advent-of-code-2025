@@ -43,11 +43,13 @@ public class PrintingDepartmentUtils implements IUtils<boolean[][]> {
     @Override
     public long calculatePartTwo(boolean[][] values) {
         int count = 0;
-        int countRemoved = 0;
+        int countRemoved;
+        boolean[][] valuesCopy = values;
 
         do {
             countRemoved = 0;
-            boolean[][] valuesCopy = values;
+            //noinspection ReassignedVariable,DataFlowIssue
+            values = valuesCopy;
 
             for (int i = 0; i < values.length; i++) {
                 for (int j = 0; j < values[i].length; j++) {
