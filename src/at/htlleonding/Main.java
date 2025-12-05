@@ -4,6 +4,7 @@ import at.htlleonding._01.SecretEntrance.SecretEntranceMain;
 import at.htlleonding._02.GiftShop.GiftShopMain;
 import at.htlleonding._03.Lobby.LobbyMain;
 import at.htlleonding._04.PrintingDepartment.PrintingDepartmentMain;
+import at.htlleonding._05.Cafeteria.CafeteriaMain;
 
 import java.util.List;
 
@@ -12,7 +13,8 @@ public class Main {
         new SecretEntranceMain(),
         new GiftShopMain(),
         new LobbyMain(),
-        new PrintingDepartmentMain()
+        new PrintingDepartmentMain(),
+	    new CafeteriaMain()
     );
 
     static void main() {
