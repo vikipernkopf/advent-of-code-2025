@@ -36,9 +36,17 @@ public class CafeteriaUtils implements IUtils<ArrayPair> {
 			}
 		}
 		
-		indexCouples.sort(Comparator.comparingLong(IndexCouple::index));
+		indexCouples.sort((a, b) -> {
+			int cmp = Long.compare(a.index(), b.index());
+			
+			if (cmp != 0) {
+				return cmp;
+			}
+			
+			return Boolean.compare(b.isStart(), a.isStart());
+		});
 		
-		return new ArrayPair(ranges, ids, removeDuplicates(indexCouples));
+		return new ArrayPair(ranges, ids, indexCouples);
 	}
 
 	@Override
@@ -62,6 +70,7 @@ public class CafeteriaUtils implements IUtils<ArrayPair> {
 	public long calculatePartTwo(ArrayPair values) {
 		int indexCount = 0;
 		List<long[]> ranges = new ArrayList<>();
+		//List<IndexCouple> couples = removeDuplicates(values.indexCouples());
 		
 		for (IndexCouple couple : values.indexCouples()) {
 			if (indexCount == 0 && couple.isStart()) {
@@ -88,16 +97,20 @@ public class CafeteriaUtils implements IUtils<ArrayPair> {
 		return count;
 	}
 	
-	private List<IndexCouple> removeDuplicates(List<IndexCouple> indexCouples) {
+	/*private List<IndexCouple> removeDuplicates(List<IndexCouple> indexCouples) {
 		List<IndexCouple> result = new ArrayList<>();
 		
 		for (IndexCouple couple : indexCouples) {
-			if (result.isEmpty() || !(result.getLast().index() == couple.index()
-				&& result.getLast().isStart() != couple.isStart())) {
+			if (!result.isEmpty()
+				&& result.getLast().index() == couple.index()
+				&& result.getLast().isStart() != couple.isStart()) {
+				//cancels out
+				result.removeLast();
+			} else {
 				result.add(couple);
 			}
 		}
 		
 		return result;
-	}
+	}*/
 }
