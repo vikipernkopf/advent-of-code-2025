@@ -5,6 +5,7 @@ import at.htlleonding._02.GiftShop.GiftShopMain;
 import at.htlleonding._03.Lobby.LobbyMain;
 import at.htlleonding._04.PrintingDepartment.PrintingDepartmentMain;
 import at.htlleonding._05.Cafeteria.CafeteriaMain;
+import at.htlleonding._06.TrashCompactor.TrashCompactorMain;
 
 import java.util.List;
 
@@ -14,7 +15,8 @@ public class Main {
         new GiftShopMain(),
         new LobbyMain(),
         new PrintingDepartmentMain(),
-	    new CafeteriaMain()
+	    new CafeteriaMain(),
+	    new TrashCompactorMain()
     );
 
     static void main() {
