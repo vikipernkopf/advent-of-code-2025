@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("CommentedOutCode")
 public class CafeteriaUtils implements IUtils<ArrayPair> {
 	@Override
 	public ArrayPair parseInput(Path path) throws IOException {

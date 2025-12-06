@@ -48,7 +48,7 @@ public class PrintingDepartmentUtils implements IUtils<boolean[][]> {
 
         do {
             countRemoved = 0;
-            //noinspection ReassignedVariable,DataFlowIssue
+	        // noinspection DataFlowIssue
             values = valuesCopy;
 
             for (int i = 0; i < values.length; i++) {

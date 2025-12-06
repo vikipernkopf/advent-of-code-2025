@@ -57,31 +57,13 @@ public class TrashCompactorUtils implements IUtils<InputPair> {
 			}
 		}
 		
-		Calculation[] calculations = new Calculation[numbersOrganized.length];
+		List<Calculation> calculations = new ArrayList<>();
 		
-		for (int i = 0; i < calculations.length; i++) {
-			calculations[i] = new Calculation(numbersOrganized[i], values.isAdditionArray()[i]);
+		for (int i = 0; i < numbersOrganized.length; i++) {
+			calculations.add(new Calculation(numbersOrganized[i], values.isAdditionArray()[i]));
 		}
 		
-		long sum = 0;
-		
-		for (Calculation calculation : calculations) {
-			if (calculation.isAddition()) {
-				for (int number : calculation.numbers()) {
-					sum += number;
-				}
-			} else {
-				long product = 1;
-				
-				for (int number : calculation.numbers()) {
-					product *= number;
-				}
-				
-				sum += product;
-			}
-		}
-		
-		return sum;
+		return doCalculations(calculations);
 	}
 	
 	@Override
@@ -100,6 +82,7 @@ public class TrashCompactorUtils implements IUtils<InputPair> {
 			
 			for (char[] charArray : chars) { //j iterates through the rows
 				if (i < charArray.length) {
+					//noinspection StringConcatenationInLoop
 					current += charArray[i];
 				}
 			}
@@ -142,25 +125,7 @@ public class TrashCompactorUtils implements IUtils<InputPair> {
 			calculations.add(new Calculation(numbers, values.isAdditionArray()[i]));
 		}
 		
-		long sum = 0;
-		
-		for (Calculation calculation : calculations) {
-			if (calculation.isAddition()) {
-				for (int number : calculation.numbers()) {
-					sum += number;
-				}
-			} else {
-				long product = 1;
-				
-				for (int number : calculation.numbers()) {
-					product *= number;
-				}
-				
-				sum += product;
-			}
-		}
-		
-		return sum;
+		return doCalculations(calculations);
 	}
 	
 	private int maxStringLength(char[][] chars) {
@@ -187,24 +152,34 @@ public class TrashCompactorUtils implements IUtils<InputPair> {
 		
 		for (String[] string : strings) {
 			if (string != null) {
-				boolean containsContent = false;
+				stringsWithoutNulls[index] = string;
 				
-				for (String s : string) {
-					if (s != null) {
-						containsContent = true;
-						
-						break;
-					}
-				}
-				
-				if (containsContent) {
-					stringsWithoutNulls[index] = string;
-					
-					index++;
-				}
+				index++;
 			}
 		}
 		
 		return stringsWithoutNulls;
+	}
+	
+	private long doCalculations(List<Calculation> calculations) {
+		long sum = 0;
+		
+		for (Calculation calculation : calculations) {
+			if (calculation.isAddition()) {
+				for (int number : calculation.numbers()) {
+					sum += number;
+				}
+			} else {
+				long product = 1;
+				
+				for (int number : calculation.numbers()) {
+					product *= number;
+				}
+				
+				sum += product;
+			}
+		}
+		
+		return sum;
 	}
 }
