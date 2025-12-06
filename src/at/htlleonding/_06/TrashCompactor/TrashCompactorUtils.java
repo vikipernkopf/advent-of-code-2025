@@ -5,37 +5,43 @@ import at.htlleonding.IUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
-public class TrashCompactorUtils implements IUtils<CalculationPair[]> {
+public class TrashCompactorUtils implements IUtils<InputPair> {
 	@Override
-	public CalculationPair[] parseInput(Path path) throws IOException {
+	public InputPair parseInput(Path path) throws IOException {
 		List<String> lines = Files.readAllLines(path);
-		boolean[] isAdditionArray = new boolean[0];
-		int[][] numbers = new int[lines.size() - 1][];
+		char[][] chars = new char[lines.size() - 1][];
 		
-		for (int i = 0; i < lines.size(); i++) {
-			String line = lines.get(i);
+		for (int i = 0; i < lines.size() - 1; i++) {
+			chars[i] = lines.get(i).toCharArray();
+		}
+		
+		String[] operations = lines.getLast().trim().split("\\s+");
+		boolean[] isAdditionArray = new boolean[operations.length];
+		
+		for (int i = 0; i < operations.length; i++) {
+			isAdditionArray[i] = operations[i].equals("+");
+		}
+		
+		return new InputPair(chars, isAdditionArray);
+	}
+	
+	@Override
+	public long calculatePartOne(InputPair values) {
+		char[][] chars = values.chars();
+		int[][] numbers = new int[chars.length][];
+		
+		for (int i = 0; i < chars.length; i++) {
+			String line = String.valueOf(chars[i]);
 			
 			String[] split = line.trim().split("\\s+");
 			
-			if (i < lines.size() - 1) {
-				numbers[i] = new int[split.length];
-			}
-			
-			if (i == lines.size() - 1) {
-				isAdditionArray = new boolean[split.length];
-			}
+			numbers[i] = new int[split.length];
 			
 			for (int j = 0; j < split.length; j++) {
-				if (split[j].equals("+")) {
-					isAdditionArray[j] = true;
-				} else if (split[j].equals("*")) {
-					isAdditionArray[j] = false;
-				} else {
-					numbers[i][j] = Integer.parseInt(split[j]);
-				}
+				numbers[i][j] = Integer.parseInt(split[j]);
 			}
 		}
 		
@@ -51,28 +57,23 @@ public class TrashCompactorUtils implements IUtils<CalculationPair[]> {
 			}
 		}
 		
-		CalculationPair[] calculationPairs = new CalculationPair[numbersOrganized.length];
+		Calculation[] calculations = new Calculation[numbersOrganized.length];
 		
-		for (int i = 0; i < calculationPairs.length; i++) {
-			calculationPairs[i] = new CalculationPair(numbersOrganized[i], isAdditionArray[i]);
+		for (int i = 0; i < calculations.length; i++) {
+			calculations[i] = new Calculation(numbersOrganized[i], values.isAdditionArray()[i]);
 		}
 		
-		return calculationPairs;
-	}
-	
-	@Override
-	public long calculatePartOne(CalculationPair[] values) {
 		long sum = 0;
 		
-		for (CalculationPair value : values) {
-			if (value.isAddition()) {
-				for (int number : value.numbers()) {
+		for (Calculation calculation : calculations) {
+			if (calculation.isAddition()) {
+				for (int number : calculation.numbers()) {
 					sum += number;
 				}
 			} else {
 				long product = 1;
 				
-				for (int number : value.numbers()) {
+				for (int number : calculation.numbers()) {
 					product *= number;
 				}
 				
@@ -84,7 +85,126 @@ public class TrashCompactorUtils implements IUtils<CalculationPair[]> {
 	}
 	
 	@Override
-	public long calculatePartTwo(CalculationPair[] values) {
-		return 0;
+	public long calculatePartTwo(InputPair values) {
+		char[][] chars = values.chars();
+		int maxLength = maxStringLength(chars);
+		
+		String[][] strings = new String[maxLength][];
+		strings[0] = new String[maxLength];
+		
+		int index = 0;
+		int currentIndex = 0;
+		
+		for (int i = 0; i < maxLength; i++) { //i for columns, should stay in same column and then go vertically
+			String current = "";
+			
+			for (char[] charArray : chars) { //j iterates through the rows
+				if (i < charArray.length) {
+					current += charArray[i];
+				}
+			}
+			
+			current = current.trim();
+			
+			if (current.isEmpty()) {
+				index++;
+				strings[index] = new String[maxLength];
+			} else {
+				strings[index][currentIndex] = current;
+				currentIndex++;
+			}
+		}
+		
+		List<Calculation> calculations = new ArrayList<>();
+		strings = removeNullArrays(strings);
+		
+		for (int i = 0; i < strings.length; i++) {
+			String[] stringNumbers = strings[i];
+			
+			int notNullCount = 0;
+			
+			for (String string : stringNumbers) {
+				if (string != null) {
+					notNullCount++;
+				}
+			}
+			
+			int[] numbers = new int[notNullCount];
+			int numbersIndex = 0;
+			
+			for (String stringNumber : stringNumbers) {
+				if (stringNumber != null) {
+					numbers[numbersIndex] = Integer.parseInt(stringNumber);
+					numbersIndex++;
+				}
+			}
+			
+			calculations.add(new Calculation(numbers, values.isAdditionArray()[i]));
+		}
+		
+		long sum = 0;
+		
+		for (Calculation calculation : calculations) {
+			if (calculation.isAddition()) {
+				for (int number : calculation.numbers()) {
+					sum += number;
+				}
+			} else {
+				long product = 1;
+				
+				for (int number : calculation.numbers()) {
+					product *= number;
+				}
+				
+				sum += product;
+			}
+		}
+		
+		return sum;
+	}
+	
+	private int maxStringLength(char[][] chars) {
+		int max = 0;
+		
+		for (char[] charArray : chars) {
+			max = Math.max(max, charArray.length);
+		}
+		
+		return max;
+	}
+	
+	private String[][] removeNullArrays(String[][] strings) {
+		int notNullCount = 0;
+		
+		for (String[] string : strings) {
+			if (string != null) {
+				notNullCount++;
+			}
+		}
+		
+		String[][] stringsWithoutNulls = new String[notNullCount][];
+		int index = 0;
+		
+		for (String[] string : strings) {
+			if (string != null) {
+				boolean containsContent = false;
+				
+				for (String s : string) {
+					if (s != null) {
+						containsContent = true;
+						
+						break;
+					}
+				}
+				
+				if (containsContent) {
+					stringsWithoutNulls[index] = string;
+					
+					index++;
+				}
+			}
+		}
+		
+		return stringsWithoutNulls;
 	}
 }
