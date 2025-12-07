@@ -6,17 +6,19 @@ import at.htlleonding._03.Lobby.LobbyMain;
 import at.htlleonding._04.PrintingDepartment.PrintingDepartmentMain;
 import at.htlleonding._05.Cafeteria.CafeteriaMain;
 import at.htlleonding._06.TrashCompactor.TrashCompactorMain;
+import at.htlleonding._07.Laboratories.LaboratoriesMain;
 
 import java.util.List;
 
 public class Main {
     private final static List<MainBaseClass<?>> classes = List.of(
-        new SecretEntranceMain(),
+        /*new SecretEntranceMain(),
         new GiftShopMain(),
         new LobbyMain(),
         new PrintingDepartmentMain(),
 	    new CafeteriaMain(),
-	    new TrashCompactorMain()
+	    new TrashCompactorMain(),*/
+        new LaboratoriesMain()
     );
 
     static void main() {
