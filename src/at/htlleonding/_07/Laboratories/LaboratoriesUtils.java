@@ -65,6 +65,61 @@ public class LaboratoriesUtils implements IUtils<Field[][]> {
 
     @Override
     public long calculatePartTwo(Field[][] values) {
-        return 0;
+        int rows = values.length;
+        int cols = values[0].length;
+
+        long[][] routesPerField = new long[rows][cols];
+
+        for (int i = 0; i < cols; i++) {
+            routesPerField[rows - 1][i] = 1;
+        }
+
+        for (int i = rows - 2; i >= 0; i--) { //start counting from the bottom
+            for (int j = 0; j < cols; j++) {
+                Field current = values[i][j];
+
+                if (current == Field.Splitter) {
+                    long left = (j - 1 >= 0) ? routesPerField[i + 1][j - 1] : 0;
+                    long right = (j + 1 < cols) ? routesPerField[i + 1][j + 1] : 0;
+
+                    routesPerField[i][j] = left + right;
+                } else if (current == Field.Empty || current == Field.Ray || current == Field.Spawn) {
+                    routesPerField[i][j] = routesPerField[i + 1][j];
+                } else {
+                    routesPerField[i][j] = 0;
+                }
+            }
+        }
+
+        long sum = 0;
+
+        for (int i = 0; i < cols; i++) {
+            if (values[0][i] == Field.Spawn) {
+                sum += routesPerField[1][i];
+            }
+        }
+
+        return sum;
     }
+
+    /*private int calculatePossibleRoutes(Field[][] values, int row, int col, int sum) {
+        if (row < 0 || row >= values.length || col < 0 || col >= values[0].length) {
+            return sum;
+        }
+
+        Field current = values[row][col];
+
+        if (current == Field.Splitter) {
+            sum = calculatePossibleRoutes(values, row + 1, col - 1, sum);
+            sum = calculatePossibleRoutes(values, row + 1, col + 1, sum);
+        } else if (current == Field.Empty || current == Field.Ray) {
+            sum = calculatePossibleRoutes(values, row + 1, col, sum);
+        }
+
+        if (row == values.length - 1) {
+            sum++;
+        }
+
+        return sum;
+    }*/
 }
