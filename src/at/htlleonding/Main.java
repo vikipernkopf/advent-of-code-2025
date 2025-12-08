@@ -7,6 +7,7 @@ import at.htlleonding._04.PrintingDepartment.PrintingDepartmentMain;
 import at.htlleonding._05.Cafeteria.CafeteriaMain;
 import at.htlleonding._06.TrashCompactor.TrashCompactorMain;
 import at.htlleonding._07.Laboratories.LaboratoriesMain;
+import at.htlleonding._08.Playground.PlaygroundMain;
 
 import java.util.List;
 
@@ -17,8 +18,9 @@ public class Main {
         new LobbyMain(),
         new PrintingDepartmentMain(),
 	    new CafeteriaMain(),
-	    new TrashCompactorMain(),*/
-        new LaboratoriesMain()
+	    new TrashCompactorMain(),
+        new LaboratoriesMain(),*/
+        new PlaygroundMain()
     );
 
     static void main() {
