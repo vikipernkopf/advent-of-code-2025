@@ -8,5 +8,13 @@ public interface IUtils<T> {
 
     long calculatePartOne(T values);
 
+    default long calculatePartOne(T values, Long extraParam) {
+        return calculatePartOne(values);
+    }
+
     long calculatePartTwo(T values);
+
+    default long calculatePartTwo(T values, Long extraParam) {
+        return calculatePartTwo(values);
+    }
 }

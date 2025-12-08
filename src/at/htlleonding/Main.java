@@ -13,13 +13,13 @@ import java.util.List;
 
 public class Main {
     private final static List<MainBaseClass<?>> classes = List.of(
-        /*new SecretEntranceMain(),
+        new SecretEntranceMain(),
         new GiftShopMain(),
         new LobbyMain(),
         new PrintingDepartmentMain(),
 	    new CafeteriaMain(),
 	    new TrashCompactorMain(),
-        new LaboratoriesMain(),*/
+        new LaboratoriesMain(),
         new PlaygroundMain()
     );
 

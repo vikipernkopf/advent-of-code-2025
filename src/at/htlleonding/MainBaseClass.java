@@ -35,12 +35,33 @@ public abstract class MainBaseClass<T> {
         runPartTwo(values);
     }
 
+    public void run(Path path, Long extraParam) {
+        T values;
+
+        try {
+            values = utils.parseInput(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        runPartOne(values, extraParam);
+        runPartTwo(values, extraParam);
+    }
+
     public void runPartOne(T values) {
         System.out.printf("Part 1: %s\n", utils.calculatePartOne(values));
     }
 
+    public void runPartOne(T values, Long extraParam) {
+        System.out.printf("Part 1: %s\n", utils.calculatePartOne(values, extraParam));
+    }
+
     public void runPartTwo(T values) {
         System.out.printf("Part 2: %s\n", utils.calculatePartTwo(values));
+    }
+
+    public void runPartTwo(T values, Long extraParam) {
+        System.out.printf("Part 2: %s\n", utils.calculatePartTwo(values, extraParam));
     }
 
     public void runTest() {

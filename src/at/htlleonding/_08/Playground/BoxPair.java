@@ -1,9 +1,9 @@
 package at.htlleonding._08.Playground;
 
 public class BoxPair implements Comparable<BoxPair> {
-    public Box boxA;
-    public Box boxB;
-    public double distance;
+    public final Box boxA;
+    public final Box boxB;
+    public final double distance;
 
     public BoxPair(Box boxA, Box boxB, double distance) {
         this.boxA = boxA;

@@ -62,6 +62,11 @@ public class PlaygroundUtils implements IUtils<BoxCollections> {
 
     @Override
     public long calculatePartOne(BoxCollections values) {
+        return -1;
+    }
+
+    @Override
+    public long calculatePartOne(BoxCollections values, Long extraParam) {
         List<BoxPair> boxPairs = new ArrayList<>(values.boxPairs());
 
         //copy so original list isn't modified for part 2
@@ -73,9 +78,7 @@ public class PlaygroundUtils implements IUtils<BoxCollections> {
 
         Map<Box, Integer> boxToIndex = new HashMap<>(values.boxToIndex());
 
-        final int PairAmount = 1000;
-
-        for (int i = 0; i < PairAmount; i++) {
+        for (int i = 0; i < extraParam.intValue(); i++) {
             if (i >= boxPairs.size()) {
                 break;
             } else {
