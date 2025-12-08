@@ -5,9 +5,9 @@ import at.htlleonding.MainBaseClass;
 
 import java.util.List;
 
-public class PlaygroundMain extends MainBaseClass<List<Box>> {
+public class PlaygroundMain extends MainBaseClass<BoxCollections> {
     @Override
-    protected IUtils<List<Box>> getUtils() {
+    protected IUtils<BoxCollections> getUtils() {
         return new PlaygroundUtils();
     }
 }

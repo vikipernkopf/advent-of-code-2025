@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlaygroundUtils implements IUtils<List<Box>> {
+public class PlaygroundUtils implements IUtils<BoxCollections> {
     @Override
-    public List<Box> parseInput(Path path) throws IOException {
+    public BoxCollections parseInput(Path path) throws IOException {
         List<String> lines = Files.readAllLines(path);
         List<Box> boxes = new ArrayList<>();
 
@@ -27,18 +27,13 @@ public class PlaygroundUtils implements IUtils<List<Box>> {
             boxes.add(new Box(x, y, z));
         }
 
-        return boxes;
-    }
-
-    @Override
-    public long calculatePartOne(List<Box> values) {
         List<BoxPair> boxPairs = new ArrayList<>();
 
-        for (int i = 0; i < values.size(); i++) {
-            Box boxA = values.get(i);
+        for (int i = 0; i < boxes.size(); i++) {
+            Box boxA = boxes.get(i);
 
-            for (int j = i + 1; j < values.size(); j++) {
-                Box boxB = values.get(j);
+            for (int j = i + 1; j < boxes.size(); j++) {
+                Box boxB = boxes.get(j);
                 double distance = Math.sqrt(Math.pow(boxA.x() - boxB.x(), 2)
                         + Math.pow(boxA.y() - boxB.y(), 2)
                         + Math.pow(boxA.z() - boxB.z(), 2));
@@ -52,8 +47,8 @@ public class PlaygroundUtils implements IUtils<List<Box>> {
         List<List<Box>> circuits = new ArrayList<>();
         Map<Box, Integer> boxToIndex = new HashMap<>();
 
-        for (int i = 0; i < values.size(); i++) {
-            Box box = values.get(i);
+        for (int i = 0; i < boxes.size(); i++) {
+            Box box = boxes.get(i);
 
             List<Box> circuit = new ArrayList<>();
             circuit.add(box);
@@ -61,6 +56,22 @@ public class PlaygroundUtils implements IUtils<List<Box>> {
 
             boxToIndex.put(box, i);
         }
+
+        return new BoxCollections(boxes, boxPairs, circuits, boxToIndex);
+    }
+
+    @Override
+    public long calculatePartOne(BoxCollections values) {
+        List<BoxPair> boxPairs = new ArrayList<>(values.boxPairs());
+
+        //copy so original list isn't modified for part 2
+        List<List<Box>> circuits = new ArrayList<>();
+
+        for (List<Box> c : values.circuits()) {
+            circuits.add(new ArrayList<>(c));
+        }
+
+        Map<Box, Integer> boxToIndex = new HashMap<>(values.boxToIndex());
 
         final int PairAmount = 1000;
 
@@ -100,7 +111,50 @@ public class PlaygroundUtils implements IUtils<List<Box>> {
     }
 
     @Override
-    public long calculatePartTwo(List<Box> values) {
-        return 0;
+    public long calculatePartTwo(BoxCollections values) {
+        List<BoxPair> boxPairs = values.boxPairs();
+        List<List<Box>> circuits = values.circuits();
+        Map<Box, Integer> boxToIndex = values.boxToIndex();
+
+        for (BoxPair currentPair : boxPairs) {
+            Integer circuitA = boxToIndex.get(currentPair.boxA);
+            Integer circuitB = boxToIndex.get(currentPair.boxB);
+
+            if (!circuitA.equals(circuitB)) {
+                List<Box> listA = circuits.get(circuitA);
+                List<Box> listB = circuits.get(circuitB);
+
+                List<Box> toMove = new ArrayList<>(listB);
+
+                listB.clear();
+                listA.addAll(toMove);
+
+                for (Box box : toMove) {
+                    boxToIndex.put(box, circuitA);
+                }
+            }
+
+            if (listContainsOnlyOneCircuit(circuits)) {
+                return (long) currentPair.boxA.x() * currentPair.boxB.x();
+            }
+        }
+
+        return -1;
+    }
+
+    private boolean listContainsOnlyOneCircuit(List<List<Box>> circuits) {
+        int nonEmptyCircuits = 0;
+
+        for (List<Box> circuit : circuits) {
+            if (!circuit.isEmpty()) {
+                nonEmptyCircuits++;
+
+                if (nonEmptyCircuits > 1) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
