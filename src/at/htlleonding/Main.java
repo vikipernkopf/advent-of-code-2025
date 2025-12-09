@@ -8,19 +8,21 @@ import at.htlleonding._05.Cafeteria.CafeteriaMain;
 import at.htlleonding._06.TrashCompactor.TrashCompactorMain;
 import at.htlleonding._07.Laboratories.LaboratoriesMain;
 import at.htlleonding._08.Playground.PlaygroundMain;
+import at.htlleonding._09.MovieTheater.MovieTheaterMain;
 
 import java.util.List;
 
 public class Main {
     private final static List<MainBaseClass<?>> classes = List.of(
-        new SecretEntranceMain(),
+        /*new SecretEntranceMain(),
         new GiftShopMain(),
         new LobbyMain(),
         new PrintingDepartmentMain(),
 	    new CafeteriaMain(),
 	    new TrashCompactorMain(),
         new LaboratoriesMain(),
-        new PlaygroundMain()
+        new PlaygroundMain(),*/
+        new MovieTheaterMain()
     );
 
     static void main() {
